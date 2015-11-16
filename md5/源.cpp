@@ -1,6 +1,6 @@
 #include "md5.h"
 
-#pragma comment(lib,"md5.lib")
+#pragma comment(lib,"md5.lib")  //æ­¤å¤„ä½¿ç”¨äº†é™æ€é“¾æ¥
 
 int main(int agr,char* agv[])
 {
@@ -14,9 +14,9 @@ int main(int agr,char* agv[])
 	{
 		MD5 fileMD5;
 		if(fileMD5.fileMd5(md5,agv[1]))
-			printf("ÎÄ¼ş'%s'µÄmd5ÖµÎª£º\n%s\n\n",agv[1],md5);
+			printf("æ–‡ä»¶'%s'çš„md5å€¼ä¸ºï¼š\n%s\n\n",agv[1],md5);
 		else
-			puts("´«ÈëµÄ²»ÊÇÒ»¸öÓĞĞ§µÄ¿É·ÃÎÊµÄÎÄ¼ş£¡\n");
+			puts("ä¼ å…¥çš„ä¸æ˜¯ä¸€ä¸ªæœ‰æ•ˆçš„å¯è®¿é—®çš„æ–‡ä»¶ï¼\n");
 	}
 	system("pause");
 	return 0;
