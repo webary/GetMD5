@@ -7,12 +7,13 @@
 #include "string.h"
 
 /* MD5 Class. */
-class MD5 {
+class MD5
+{
 public:
     MD5();
     virtual ~MD5();
     bool fileMd5(char *pMd5, const char *pFileName);
-	bool strMd5 (char *pMd5, const char *str);
+    bool strMd5 (char *pMd5, const char *str);
 
 private:
     unsigned long int state[4];		/* state (ABCD) */
@@ -30,7 +31,7 @@ private:
     void Decode (unsigned long int *output, unsigned char *input, unsigned int len);
     void MD5_memset (unsigned char* output,int value,unsigned int len);
 };
-//·µ»ØÒ»¸ö×Ö·û´®µÄmd5Öµ
+//è¿”å›žä¸€ä¸ªå­—ç¬¦ä¸²çš„md5å€¼
 const char* getStrMd5(char* md5_value, const char* str);
 
 #endif
