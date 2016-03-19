@@ -57,14 +57,17 @@ Rotation is separate from addition to prevent recomputation.
 /* MD5 initialization. Begins an MD5 operation, writing a new context.
 */
 
-MD5::MD5() {
+MD5::MD5()
+{
     MD5Init ();
 }
 
-MD5::~MD5() {
+MD5::~MD5()
+{
 }
 
-void MD5::MD5Init () {
+void MD5::MD5Init ()
+{
     count[0] = count[1] = 0;
     /* Load magic initialization constants.*/
     state[0] = 0x67452301;
@@ -78,7 +81,8 @@ void MD5::MD5Init () {
 
 #define UPDATE_MD5_LEN 16
 //get a file's md5 value
-bool MD5::fileMd5(char *pMd5,  const char *pFileName) {
+bool MD5::fileMd5(char *pMd5,  const char *pFileName)
+{
     unsigned char chDigest[UPDATE_MD5_LEN] = {0};
     FILE * pFile = fopen(pFileName, "rb");
     if(NULL == pFile) {
@@ -89,16 +93,15 @@ bool MD5::fileMd5(char *pMd5,  const char *pFileName) {
     fseek(pFile,0, SEEK_SET);
     unsigned char *pInPut = (unsigned char *)malloc(length);
     if (pInPut) {
-		fread(pInPut, 1, length, pFile);
-		fclose(pFile);
-		MD5Update(pInPut, length);
-		MD5Final(chDigest);
+        fread(pInPut, 1, length, pFile);
+        fclose(pFile);
+        MD5Update(pInPut, length);
+        MD5Final(chDigest);
         free(pInPut);
-	}else
-	{
-		fclose(pFile);
-		return false;
-	}
+    } else {
+        fclose(pFile);
+        return false;
+    }
     char szmd5[UPDATE_MD5_LEN*2+1] = {0};
     char szmd5buf[3] = {0};
     for (int i = 0; i < UPDATE_MD5_LEN; i++) {
@@ -117,40 +120,40 @@ bool MD5::fileMd5(char *pMd5,  const char *pFileName) {
 //get a string's md5 value
 bool MD5::strMd5(char *pMd5, const char *str)
 {
-	unsigned char chDigest[UPDATE_MD5_LEN] = {0};
-	int length = strlen(str);
-	if(0>=length){
-		return false;
-	}
-	unsigned char *pInPut = (unsigned char *)malloc(length);
-	if (pInPut) {
-		memcpy(pInPut,str,length);
-		MD5Update(pInPut, length);
-		MD5Final(chDigest);
-		free(pInPut);
-	}else
-	{
-		return false;
-	}
-	char szmd5[UPDATE_MD5_LEN*2+1] = {0};
-	char szmd5buf[3] = {0};
-	for (int i = 0; i < UPDATE_MD5_LEN; i++) {
-		::_itoa(chDigest[i], szmd5buf, 16);
-		if ( 0 == szmd5buf[1]) {
-			strcat(szmd5, "0");
-			strcat(szmd5, szmd5buf);
-		} else {
-			strcat(szmd5, szmd5buf);
-		}
-	}
-	strcpy(pMd5,  szmd5);
-	return true;
+    unsigned char chDigest[UPDATE_MD5_LEN] = {0};
+    int length = strlen(str);
+    if(0>=length) {
+        return false;
+    }
+    unsigned char *pInPut = (unsigned char *)malloc(length);
+    if (pInPut) {
+        memcpy(pInPut,str,length);
+        MD5Update(pInPut, length);
+        MD5Final(chDigest);
+        free(pInPut);
+    } else {
+        return false;
+    }
+    char szmd5[UPDATE_MD5_LEN*2+1] = {0};
+    char szmd5buf[3] = {0};
+    for (int i = 0; i < UPDATE_MD5_LEN; i++) {
+        ::_itoa(chDigest[i], szmd5buf, 16);
+        if ( 0 == szmd5buf[1]) {
+            strcat(szmd5, "0");
+            strcat(szmd5, szmd5buf);
+        } else {
+            strcat(szmd5, szmd5buf);
+        }
+    }
+    strcpy(pMd5,  szmd5);
+    return true;
 
 }
 
 /* MD5 block update operation. Continues an MD5 message-digest operation,
 processing another message block, and updating the context.*/
-void MD5::MD5Update (unsigned char *input,unsigned int inputLen) {
+void MD5::MD5Update (unsigned char *input,unsigned int inputLen)
+{
     unsigned int i, index, partLen;
 
     /* Compute number of bytes mod 64 */
@@ -158,7 +161,7 @@ void MD5::MD5Update (unsigned char *input,unsigned int inputLen) {
 
     /* Update number of bits */
     if ((count[0] += ((unsigned long int)inputLen << 3))
-            < ((unsigned long int)inputLen << 3))
+        < ((unsigned long int)inputLen << 3))
         count[1]++;
     count[1] += ((unsigned long int)inputLen >> 29);
 
@@ -185,7 +188,8 @@ void MD5::MD5Update (unsigned char *input,unsigned int inputLen) {
 /* MD5 finalization. Ends an MD5 message-digest operation, writing the
 the message digest and zeroizing the context.
 */
-void MD5::MD5Final (unsigned char digest[16]) {
+void MD5::MD5Final (unsigned char digest[16])
+{
     unsigned char bits[8];
     unsigned int index, padLen;
 
@@ -211,7 +215,8 @@ void MD5::MD5Final (unsigned char digest[16]) {
 
 /* MD5 basic transformation. Transforms state based on block.
 */
-void MD5::MD5Transform (unsigned long int state[4], unsigned char block[64]) {
+void MD5::MD5Transform (unsigned long int state[4], unsigned char block[64])
+{
     unsigned long int a = state[0], b = state[1], c = state[2], d = state[3], x[16];
 
     Decode (x, block, 64);
@@ -301,7 +306,8 @@ void MD5::MD5Transform (unsigned long int state[4], unsigned char block[64]) {
 /* Encodes input (unsigned long int) into output (unsigned char). Assumes len is
 a multiple of 4.
 */
-void MD5::Encode (unsigned char *output, unsigned long int *input,unsigned int len) {
+void MD5::Encode (unsigned char *output, unsigned long int *input,unsigned int len)
+{
     unsigned int i, j;
 
     for (i = 0, j = 0; j < len; i++, j += 4) {
@@ -315,7 +321,8 @@ void MD5::Encode (unsigned char *output, unsigned long int *input,unsigned int l
 /* Decodes input (unsigned char) into output (unsigned long int). Assumes len is
 a multiple of 4.
 */
-void MD5::Decode (unsigned long int *output, unsigned char *input, unsigned int len) {
+void MD5::Decode (unsigned long int *output, unsigned char *input, unsigned int len)
+{
     unsigned int i, j;
 
     for (i = 0, j = 0; j < len; i++, j += 4)
@@ -326,7 +333,8 @@ void MD5::Decode (unsigned long int *output, unsigned char *input, unsigned int 
 /* Note: Replace "for loop" with standard memcpy if possible.
 */
 
-void MD5::MD5_memcpy (unsigned char* output, unsigned char* input,unsigned int len) {
+void MD5::MD5_memcpy (unsigned char* output, unsigned char* input,unsigned int len)
+{
     unsigned int i;
 
     for (i = 0; i < len; i++)
@@ -335,7 +343,8 @@ void MD5::MD5_memcpy (unsigned char* output, unsigned char* input,unsigned int l
 
 /* Note: Replace "for loop" with standard memset if possible.
 */
-void MD5::MD5_memset (unsigned char* output,int value,unsigned int len) {
+void MD5::MD5_memset (unsigned char* output,int value,unsigned int len)
+{
     unsigned int i;
 
     for (i = 0; i < len; i++)
@@ -344,8 +353,8 @@ void MD5::MD5_memset (unsigned char* output,int value,unsigned int len) {
 
 const char* getStrMd5(char* md5_value, const char* str)
 {
-	MD5 md5;
-	memset(md5_value,0,sizeof(md5_value));
-	md5.strMd5(md5_value,str);
-	return md5_value;
+    MD5 md5;
+    memset(md5_value,0,sizeof(md5_value));
+    md5.strMd5(md5_value,str);
+    return md5_value;
 }
