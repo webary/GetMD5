@@ -1,4 +1,4 @@
-#include "md5.hpp"
+#include "md5.h"
 
 /* Constants for MD5Transform routine.
 */
